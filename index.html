@@ -3,16 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <title>Shivam &amp; Swati — Roka Album</title>
+    <meta name="description" content="A virtual photo album of the Roka ceremony of Shivam and Swati." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
-    <title>Notes App</title>
   </head>
   <body>
-    <button class="add" id="add">
-      <i class="fas fa-plus"></i> Add note
-    </button>
+    <header class="top">
+      <p class="eyebrow">The Roka Ceremony of</p>
+      <h1>Shivam <span>&amp;</span> Swati</h1>
+    </header>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.2.2/marked.min.js"></script>
+    <main class="stage">
+      <button class="nav prev" id="prev" aria-label="Previous page">&#8249;</button>
+      <div class="book-wrap" id="bookWrap">
+        <div class="book" id="book" aria-live="polite"></div>
+      </div>
+      <button class="nav next" id="next" aria-label="Next page">&#8250;</button>
+    </main>
+
+    <footer class="bottom">
+      <span id="status"></span>
+      <span class="hint">Click a page, swipe, or use the arrow keys to turn pages</span>
+    </footer>
+
+    <div class="lightbox" id="lightbox" hidden>
+      <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+      <img id="lbImg" alt="" />
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

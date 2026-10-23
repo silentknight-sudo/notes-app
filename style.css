@@ -1,74 +1,390 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+:root {
+  --maroon: #6b1020;
+  --maroon-deep: #3d0711;
+  --gold: #c9a24a;
+  --gold-soft: #e8d39a;
+  --paper: #fbf5e9;
+  --paper-edge: #efe3c8;
+  --ink: #3a2a1e;
+  --page-w: 360px;
+  --page-h: 480px;
+}
 
 * {
   box-sizing: border-box;
-  outline: none;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
 }
 
 body {
-  background-color: #7bdaf3;
-  font-family: 'Poppins', sans-serif;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  color: var(--paper);
+  background: radial-gradient(ellipse at center, #5a0f1c 0%, var(--maroon-deep) 70%, #22030a 100%);
+}
+
+/* ---------- header / footer ---------- */
+
+.top {
+  text-align: center;
+  padding: 18px 16px 4px;
+}
+
+.eyebrow {
   margin: 0;
-  padding-top: 3rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
 }
 
-.add {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background-color: #9ec862;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+.top h1 {
+  margin: 2px 0 0;
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  color: var(--gold);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
-.add:active {
-  transform: scale(0.98);
+.top h1 span {
+  color: var(--gold-soft);
 }
 
-.note {
-  background-color: #fff;
-  box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1);
-  margin: 30px 20px;
-  height: 400px;
-  width: 400px;
-  overflow-y: scroll;
-}
-
-.note .tools {
-  background-color: #9ec862;
+.bottom {
   display: flex;
-  justify-content: flex-end;
-  padding: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 16px 16px;
+  font-size: 0.95rem;
+  color: var(--gold-soft);
 }
 
-.note .tools button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
+.bottom .hint {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* ---------- stage ---------- */
+
+.stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 0 8px;
+}
+
+.nav {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--gold);
+  font-size: 1.8rem;
+  line-height: 1;
   cursor: pointer;
-  font-size: 1rem;
-  margin-left: 0.5rem;
+  transition: background 0.2s, opacity 0.2s;
 }
 
-.note textarea {
-  outline: none;
-  font-family: inherit;
-  font-size: 1.2rem;
-  border: none;
-  height: 400px;
+.nav:hover:not(:disabled) {
+  background: rgba(201, 162, 74, 0.2);
+}
+
+.nav:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.book-wrap {
+  perspective: 2400px;
+}
+
+.book {
+  position: relative;
+  width: calc(var(--page-w) * 2);
+  height: var(--page-h);
+  transition: transform 0.9s ease;
+}
+
+/* centre the closed book on its cover / back cover */
+.book.at-start {
+  transform: translateX(calc(var(--page-w) * -0.5));
+}
+
+.book.at-end {
+  transform: translateX(calc(var(--page-w) * 0.5));
+}
+
+/* ---------- leaves ---------- */
+
+.leaf {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.45, 0.05, 0.3, 1);
+  cursor: pointer;
+}
+
+.leaf.flipped {
+  transform: rotateY(-180deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.face > .cover,
+.face > .text-page,
+.face > .photo-page {
+  height: 100%;
+}
+
+.face.front {
+  border-radius: 0 6px 6px 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.12), transparent 8%);
+}
+
+.face.back {
+  transform: rotateY(180deg);
+  border-radius: 6px 0 0 6px;
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.12), transparent 8%);
+}
+
+/* ---------- covers ---------- */
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10%;
+  color: var(--gold);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(201, 162, 74, 0.18), transparent 60%),
+    linear-gradient(135deg, #7d1426, var(--maroon-deep));
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  outline: 1px solid rgba(201, 162, 74, 0.5);
+  outline-offset: 5px;
+  pointer-events: none;
+}
+
+.cover .small {
+  font-size: calc(var(--page-w) * 0.042);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.cover .names {
+  margin: 0.25em 0;
+  font-family: "Great Vibes", cursive;
+  font-size: calc(var(--page-w) * 0.15);
+  line-height: 1.1;
+}
+
+.cover .names span {
+  display: block;
+  font-size: 0.55em;
+  color: var(--gold-soft);
+}
+
+.cover .orn {
+  font-size: calc(var(--page-w) * 0.06);
+  color: var(--gold-soft);
+}
+
+.cover .devanagari {
+  margin-top: 0.4em;
+  font-size: calc(var(--page-w) * 0.07);
+  color: var(--gold-soft);
+}
+
+/* ---------- text pages ---------- */
+
+.text-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14%;
+  font-size: calc(var(--page-w) * 0.05);
+  line-height: 1.5;
+}
+
+.text-page::before {
+  content: "";
+  position: absolute;
+  inset: 6%;
+  border: 1px solid var(--gold);
+  pointer-events: none;
+}
+
+.text-page h2 {
+  margin: 0 0 0.4em;
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: 2em;
+  color: var(--maroon);
+}
+
+.text-page p {
+  margin: 0.3em 0;
+  font-style: italic;
+}
+
+.text-page .orn {
+  color: var(--gold);
+  font-size: 1.3em;
+}
+
+/* ---------- photo pages ---------- */
+
+.photo-page {
+  padding: 7% 7% 12%;
+}
+
+.photo-frame {
+  position: relative;
   width: 100%;
-  padding: 20px;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--paper-edge);
+  background: #1c1410;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-.main {
-  padding: 20px;
+.photo-frame .blur {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  filter: blur(18px) brightness(0.7);
 }
 
-.hidden {
+.photo-frame .main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.photo-frame .main.loaded {
+  opacity: 1;
+}
+
+.photo-frame .loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--gold-soft);
+  font-style: italic;
+}
+
+.zoom {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 15px;
+  cursor: zoom-in;
+}
+
+.page-no {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3.5%;
+  text-align: center;
+  font-size: calc(var(--page-w) * 0.038);
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+/* ---------- lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(10, 2, 4, 0.92);
+}
+
+.lightbox[hidden] {
   display: none;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.lb-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: none;
+  color: var(--gold-soft);
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .nav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf,
+  .book {
+    transition: none;
+  }
 }

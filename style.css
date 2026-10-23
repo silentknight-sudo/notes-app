@@ -261,6 +261,10 @@ button:focus-visible,
   transform: rotateY(-180deg);
 }
 
+.leaf.far {
+  display: none;
+}
+
 .face {
   position: absolute;
   inset: 0;

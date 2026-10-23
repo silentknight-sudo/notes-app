@@ -2,35 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shivam &amp; Swati — Roka Album</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Shivam &amp; Swati Roka Album</title>
     <meta name="description" content="A virtual photo album of the Roka ceremony of Shivam and Swati." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Tiro+Devanagari+Hindi&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="top">
-      <p class="eyebrow">The Roka Ceremony of</p>
-      <h1>Shivam <span>&amp;</span> Swati</h1>
+    <canvas class="petals" id="petals" aria-hidden="true"></canvas>
+
+    <header class="top" id="top">
+      <span class="mono">Shivam <i>&amp;</i> Swati</span>
+      <span class="sep" aria-hidden="true">✦</span>
+      <span class="sub">The Roka Ceremony</span>
     </header>
 
     <main class="stage">
-      <button class="nav prev" id="prev" aria-label="Previous page">&#8249;</button>
       <div class="book-wrap" id="bookWrap">
-        <div class="book" id="book" aria-live="polite"></div>
+        <div class="book" id="book" title="Click or swipe to turn the page"></div>
       </div>
-      <button class="nav next" id="next" aria-label="Next page">&#8250;</button>
     </main>
 
-    <footer class="bottom">
-      <span id="status"></span>
-      <span class="hint">Click a page, swipe, or use the arrow keys to turn pages</span>
-    </footer>
+    <nav class="bottom" id="bottom" aria-label="Album pages">
+      <button class="nav" id="prev" aria-label="Previous page">&#8249;</button>
+      <span class="status" id="status" aria-live="polite"></span>
+      <button class="nav" id="next" aria-label="Next page">&#8250;</button>
+    </nav>
 
     <div class="lightbox" id="lightbox" hidden>
       <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
